@@ -140,7 +140,7 @@ Los errores de la API lanzan subclases de `IndecAPIError` con el detalle devuelt
 
 ## Autor y contacto
 
-Creado y mantenido por **Diego Morabito** ([@morabdiego](https://github.com/morabdiego)).  
+Creado y mantenido por **Diego Mora** ([@morabdiego](https://github.com/morabdiego)).
 Consultas, sugerencias o contacto: [morabdiego@gmail.com](mailto:morabdiego@gmail.com).
 
 ## Licencia
