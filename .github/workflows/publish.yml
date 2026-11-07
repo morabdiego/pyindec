@@ -1,0 +1,65 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    name: Run tests & build distributions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies & run unit tests
+        run: |
+          uv sync --python 3.12
+          uv run --python 3.12 python -m unittest discover -s tests -v
+
+      - name: Build wheel and sdist
+        run: uv build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-pypi:
+    name: Publish package to PyPI
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pyindec
+    permissions:
+      id-token: write  # Necesario para Trusted Publishing (OIDC) en PyPI
+      contents: read
+
+    steps:
+      - name: Download built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Si configurás Trusted Publisher en PyPI (recomendado), no hace falta ningún secret.
+          # Si preferís usar un token manual en GitHub Secrets (PYPI_API_TOKEN), también lo toma automáticamente:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
