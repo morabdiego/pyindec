@@ -396,5 +396,5 @@ Cuando un dato numérico es `None` o tiene notas metodológicas, la columna `obs
 
 ## Autor y contacto
 
-Creado y mantenido por **Diego Morabito** ([@morabdiego](https://github.com/morabdiego)).  
+Creado y mantenido por **Diego Mora** ([@morabdiego](https://github.com/morabdiego)).
 Contacto: [morabdiego@gmail.com](mailto:morabdiego@gmail.com).
